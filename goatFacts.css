@@ -73,6 +73,7 @@ body{
 
 /*LOGIN*/
 .loginContainer{
+    position: relative;
     align-self: center;
     margin-bottom: 60px;
     background-color: var(--bg-color);
@@ -191,6 +192,7 @@ label{
     padding-top: 15px;
 }
 
+.loginContainer > form,
 .goatFact p,
 .title{
     position: relative;
