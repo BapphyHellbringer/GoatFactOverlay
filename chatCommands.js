@@ -51,7 +51,7 @@ const goatFactAPI = 'https://goatops.farm/api/v1/creatures/goat/random-facts?n=1
         const response = await fetch(goatFactAPI);
 
         if (!response.ok) {
-        throw new Error('Response status: ' + response.status);
+        throw new Error(`Response status: ${response.status}`);
         }
 
         const result = await response.json();
@@ -76,7 +76,10 @@ const goatFactAPI = 'https://goatops.farm/api/v1/creatures/goat/random-facts?n=1
 
     async function buildFactHTML(){                     //Baut das HTML für den Ziegenfakt zusammen und zeigt es an
         let fact = await getGoatFact();
-        let goatFactHTML = '<div class="animate__animated ' + animationIn + ' goatFact dots"><div class="title"><p>Goat Wisdom</p></div><p class="fact">' + fact + '</p></div>';
+        let goatFactHTML = `<div class="animate__animated ${animationIn} goatFact dots">
+                                <p class="title">Goat Wisdom</p>
+                                <p class="fact">${fact}</p>
+                            </div>`;
         factsDisplay.innerHTML = goatFactHTML;
         goatFactElement = document.querySelector('.goatFact');
         goatFactElement.addEventListener('animationend', () => {
