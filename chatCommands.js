@@ -15,10 +15,6 @@ const goatFactAPI = 'https://goatops.farm/api/v1/creatures/goat/random-facts?n=1
     });
 
     function login(){
-        ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
-            goatCommands(command);
-        }
-        
         ComfyJS.Init(username.value);
 
         loginAnimation();
@@ -36,10 +32,16 @@ const goatFactAPI = 'https://goatops.farm/api/v1/creatures/goat/random-facts?n=1
 
 
 //CHAT COMMANDS  
+
+    ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+        goatCommands(command);
+    }
+
     async function goatCommands(command){
         switch(command){ 
             case 'goatfact':
-                await newGoatFact();
+                goatFact = await newGoatFact();
+                setTimeout(() => deleteGoatFact(goatFact), 30000)
                 break;
         }
     }
@@ -71,16 +73,19 @@ const goatFactAPI = 'https://goatops.farm/api/v1/creatures/goat/random-facts?n=1
         }
 
         goatFact = await buildFactHTML();
-        window.setTimeout( () => deleteGoatFact(goatFact), 30000);
+
+        return goatFact;
     }
 
     async function buildFactHTML(){                     //Baut das HTML für den Ziegenfakt zusammen und zeigt es an
         let fact = await getGoatFact();
+        
         let goatFactHTML = `<div class="animate__animated ${animationIn} goatFact dots">
                                 <p class="title">Goat Wisdom</p>
                                 <p class="fact">${fact}</p>
                             </div>`;
         factsDisplay.innerHTML = goatFactHTML;
+
         goatFactElement = document.querySelector('.goatFact');
         goatFactElement.addEventListener('animationend', () => {
             goatFactElement.classList.remove(animationIn)
